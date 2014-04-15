@@ -1,10 +1,14 @@
 module.exports = function(config) {
   config.set({
-    basePath: 'src',
-    frameworks: ['mocha', 'chai', 'sinon'],
+    basePath: '',
+    frameworks: ['mocha', 'requirejs', 'chai', 'sinon'],
     files: [
+      'node_modules/sinon/pkg/sinon.js',
+      {pattern: 'node_modules/**/*.js', included: false },
+      'test/test-main.js',
       'js/**/*.js',
-      'tests/**/*.spec.js'
+      'test/*.spec.js',
+      'test/fixtures/*.html'
     ],
     exclude: [],
     reporters: ['progress'],
@@ -14,18 +18,6 @@ module.exports = function(config) {
     autoWatch: true,
     browsers: ['PhantomJS'],
     captureTimeout: 6000,
-    singleRun: false,
-    plugins: [
-      'karma-mocha',
-      'karma-chai',
-      'karma-sinon',
-      'karma-ejs-preprocessor'
-    ],
-    preprocessors: {
-      '**/*.ejs': ['ejs']
-    },
-    ejsOptions: {
-      parentPath: 'tests/fixtures/'
-    },
+    singleRun: false
   });
 };
