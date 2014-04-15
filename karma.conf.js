@@ -14,6 +14,18 @@ module.exports = function(config) {
     autoWatch: true,
     browsers: ['PhantomJS'],
     captureTimeout: 6000,
-    singleRun: false
+    singleRun: false,
+    plugins: [
+      'karma-mocha',
+      'karma-chai',
+      'karma-sinon',
+      'karma-ejs-preprocessor'
+    ],
+    preprocessors: {
+      '**/*.ejs': ['ejs']
+    },
+    ejsOptions: {
+      parentPath: 'tests/fixtures/'
+    },
   });
 };
