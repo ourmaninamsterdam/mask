@@ -6,7 +6,7 @@ module.exports = function(config) {
       'test/fixtures/*.html',
       'test/test-main.js',
       {pattern: 'js/**/*.js', included: false},
-      {pattern: 'test/*.spec.js', included: false},
+      {pattern: 'test/tests/*.spec.js', included: false},
       {pattern: 'bower_components/**/*.js', included: false}
     ],
     exclude: [],
