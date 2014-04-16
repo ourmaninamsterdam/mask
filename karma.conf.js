@@ -1,16 +1,18 @@
 module.exports = function(config) {
   config.set({
     basePath: '',
-    frameworks: ['mocha', 'requirejs', 'chai', 'sinon'],
+    frameworks: ['requirejs','mocha', 'chai', 'sinon'],
     files: [
-      'node_modules/sinon/pkg/sinon.js',
-      {pattern: 'node_modules/**/*.js', included: false },
+      'test/fixtures/*.html',
       'test/test-main.js',
-      'js/**/*.js',
-      'test/*.spec.js',
-      'test/fixtures/*.html'
+      {pattern: 'js/**/*.js', included: false},
+      {pattern: 'test/*.spec.js', included: false},
+      {pattern: 'bower_components/**/*.js', included: false}
     ],
     exclude: [],
+    preprocessors: {
+      '**/*.html': ['html2js']
+    },
     reporters: ['progress'],
     port: 9999,
     colors: true,
