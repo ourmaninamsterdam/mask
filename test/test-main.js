@@ -1,20 +1,22 @@
 var tests = [];
 for (var file in window.__karma__.files) {
-    if (/Spec\.js$/.test(file)) {
+    if (/spec|test\.js$/i.test(file)) {
         tests.push(file);
     }
 }
 
+var pathToModule = function (path) {
+  console.log(path.replace(/^\/base\//, '').replace(/\.js$/, ''));
+  return path.replace(/^\/base\//, '').replace(/\.js$/, '');
+};
+
 requirejs.config({
-  baseUrl: '/',
+  baseUrl: '/base',
 
   paths: {
-    'fixture' : 'test.spec'
+        
   },
 
-  // ask Require.js to load these files (all our tests)
   deps: tests,
-
-  // start test run, once Require.js is done
   callback: window.__karma__.start
 });

@@ -1,0 +1,19 @@
+{
+  "name": "mask",
+  "version": "0.0.0",
+  "homepage": "https://github.com/ourmaninamsterdam/mask",
+  "authors": [
+    "Justin Perry <just.perry@gmail.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "~2.1.0"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
