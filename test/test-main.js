@@ -1,14 +1,14 @@
 var tests = [];
 var replaceModulePath;
 var file;
-var bowerPath = 'bower/components/';
+var bowerPath = 'bower_components/';
 
 replaceModulePath = function (path) {
   return path.replace(/^\/base\//, '').replace(/\.js$/, '');
 };
 
 for (file in window.__karma__.files) {
-  if (/spec|test\.js$/i.test(file)) {
+  if (/spec\.js$/i.test(file)) {
     tests.push(replaceModulePath(file));
   }
 }
@@ -17,7 +17,7 @@ requirejs.config({
   baseUrl: '/base',
   deps: tests,
   paths: {
-    'jquery' : bowerPath + 'jquery'
+    'jquery' : bowerPath + 'jquery/dist/jquery'
   },
   callback: window.__karma__.start
 });
