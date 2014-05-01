@@ -1,9 +1,11 @@
 mask
 ====
 
-Install
+===Install
 
 ```sh
-npm install
-bower install
+npm install; bower install
 ```
+
+===Prerequisites
+NodeJS
