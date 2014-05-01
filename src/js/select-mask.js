@@ -16,6 +16,7 @@
 
   function SelectMask(options) {
     if(typeof options !== 'object') return;
+
     this.selectors = {
       select: options.selectors.select || '.js-select-mask'
     };
@@ -27,11 +28,11 @@
 
   // 'Private' methods
   SelectMask.prototype._bindEvents = function() {
-    $(document).on('change', this.selectors.select, this.eventFn);
+    $(document).on('change', this.selectors._update, this.eventFn);
   };
 
   SelectMask.prototype._unbindEvents = function() {
-    $(document).off('change', this.selectors.select, this.eventFn);
+    $(document).off('change', this.selectors._update, this.eventFn);
   };
 
   SelectMask.prototype._init = function() {
@@ -41,36 +42,34 @@
   };
 
   SelectMask.prototype._update = function(e) {
-    console.log('_update', e.currentTarget, this._getSelectedIndex($(e.currentTarget)));
-    this._setLabelMask(e.currentTarget, e.currentTarget)
+    this._setLabelMask(e.target.previousSibling, this._getSelectedIndex(e.target).innerText);
 
     return this;
   };
 
-  SelectMask.prototype._getSelectedIndex = function($select) {
-    var options = $select[0].options;
+  SelectMask.prototype._getSelectedIndex = function(select) {
+    var options = select.options;
     return options[options.selectedIndex];
   };
 
-  SelectMask.prototype._createLabelMask = function($select) {
-    var $mask = $(document.createElement(this.elementType));
-    this._setLabelMask($mask, this._getSelectedIndex($select).innerText);
-    $mask.addClass('select-mask');
-    $mask.insertBefore($select);
+  SelectMask.prototype._createLabelMask = function(select) {
+    var mask = document.createElement(this.elementType);
+    this._setLabelMask(mask, this._getSelectedIndex(select).innerText);
+    mask.className += 'select-mask';
+    select.parentNode.insertBefore(mask, select);
 
     return this;
   };
 
-  SelectMask.prototype._setLabelMask = function($elem, text) {
-    $elem.text(text);
-
+  SelectMask.prototype._setLabelMask = function(elem, text) {
+    elem.innerText = text;
     return this;
   };
 
   SelectMask.prototype._processSelects = function() {
     var that = this;
     $.each(this.$selects, function() {
-      that._createLabelMask($(this));
+      that._createLabelMask($(this)[0]);
     });
     return this;
   };
