@@ -29,7 +29,7 @@ SelectMask.prototype._init = function() {
 };
 
 /**
- * Binds onchange events to `select` elements in this.selects
+ * Binds onchange events to `select` elements
  * @method _bindEvents
  * @private
  * @return {Object} this
@@ -58,7 +58,7 @@ SelectMask.prototype._delegateEvent = function(e, selector, callback) {
 };
 
 /**
- * Unbinds onchange events from matching `select` elements in this.selects
+ * Unbinds onchange events from matching `select` elements
  * @method _unbindEvents
  * @private
  * @return {Object} this
@@ -114,7 +114,7 @@ SelectMask.prototype._setMaskText = function(elem, text) {
 };
 
 /**
- * Loops over the selects array and calling the _createMask method on each
+ * Loops over the selects nodelist and calls the _createMask method on each
  * @method _processSelects
  * @private
  * @return {Object} this
@@ -148,7 +148,7 @@ SelectMask.prototype._getSelectedIndex = function(select) {
  * @method _setMaskTextFocusState
  * @param {Object} elem The mask element
  * @private
- * @return {Number} this
+ * @return {Object} this
  */
 SelectMask.prototype._setMaskFocusState = function(elem) {
   elem.className += 'is-active';
