@@ -64,7 +64,7 @@ SelectMask.prototype._delegateEvent = function(e, selector, callback) {
  * @return {Object} this
  */
 SelectMask.prototype._unbindEvents = function() {
-  $(document).off('change', this.selectors.select, this.eventFn);
+  // $(document).off('change', this.selectors.select, this.eventFn);
 
   return this;
 };
@@ -156,6 +156,17 @@ SelectMask.prototype._setMaskFocusState = function(elem) {
 };
 
 /**
+ * Removes 'select' mask
+ * @method _removeMask
+ * @private
+ * @return {Object} this
+ */
+SelectMask.prototype._removeMask = function(elem) {
+  console.log(elem);
+  elem.parentNode.removeChild(elem);
+};
+
+/**
  * Adds DOM events
  * @method start
  * @public
@@ -175,7 +186,15 @@ SelectMask.prototype.start = function() {
  * @return {Object} this
  */
 SelectMask.prototype.destroy = function() {
+  var i = this.elemSelects.length;
+
   this._unbindEvents();
+  console.log('before:',this.elemSelects.length);
+  while(i--) {
+    this._removeMask(this.elemSelects[i]);
+  }
+
+  console.log('after:',this.elemSelects.length);
 
   return this;
 };

@@ -5,4 +5,6 @@
     }
   });
   selectMask.start();
+
+  selectMask.destroy();
 })(window);
