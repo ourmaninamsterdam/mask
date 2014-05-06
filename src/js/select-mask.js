@@ -11,7 +11,7 @@ function SelectMask(options) {
     select: options.selectors.select || '.js-select-mask'
   };
   this.elementType = options.elementType || 'span';
-  this.$selects = null;
+  this.elemSelects = null;
   this.eventFn = this._update.bind(this);
   this._init();
 }
@@ -23,7 +23,7 @@ function SelectMask(options) {
  * @return {Object} this
  */
 SelectMask.prototype._init = function() {
-  this.$selects = this.selectors.select;
+  this.elemSelects = document.querySelectorAll(this.selectors.select);
 
   return this;
 };
@@ -36,8 +36,9 @@ SelectMask.prototype._init = function() {
  */
 SelectMask.prototype._bindEvents = function() {
   var that = this;
+
   document.addEventListener('change', function(e){
-    that._delegateEvent();
+    that._delegateEvent(e, that.selectors.select, that._update);
   });
     // .on('change', , this.eventFn)
     // .on('focus', this.selectors.select, this._setMaskFocusState);
@@ -45,10 +46,14 @@ SelectMask.prototype._bindEvents = function() {
   return this;
 };
 
-SelectMask.prototype._delegateEvent = function(elem, selector) {
-  var regEx = new RegExp(selector,'i');
-  if(e.target.className.test(selector)){
-    console.log('match');
+SelectMask.prototype._delegateEvent = function(e, selector, callback) {
+  var regEx = new RegExp(selector.replace('.',''),'gi'),
+      elem = e.target;
+
+  if(regEx.test(elem.className)){
+    if(typeof callback === 'function'){
+      callback(elem);
+    }
   }
 };
 
@@ -70,8 +75,9 @@ SelectMask.prototype._unbindEvents = function() {
  * @private
  * @return {Object} this 
  */
-SelectMask.prototype._update = function(e) {
-  this._setMaskText(e.target.previousSibling, this._getSelectedIndex(e.target).innerText);
+SelectMask.prototype._update = function(elem) {
+  console.log(elem);
+  this._setMaskText(elem.previousSibling, this._getSelectedIndex(elem).innerText);
 
   return this;
 };
@@ -115,10 +121,10 @@ SelectMask.prototype._setMaskText = function(elem, text) {
  */
 SelectMask.prototype._processSelects = function() {
   var that = this,
-    i = this.$selects.length;
-    
+    i = this.elemSelects.length;
+    console.log(this.elemSelects);
   while(i--) {
-    that._createMask(this.$selects[i]);
+    that._createMask(this.elemSelects[i]);
   }
 
   return this;
