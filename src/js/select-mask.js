@@ -38,7 +38,7 @@ SelectMask.prototype._bindEvents = function() {
   var that = this;
 
   document.addEventListener('change', function(e){
-    that._delegateEvent(e, that.selectors.select, that._update);
+    that._delegateEvent(e, that.selectors.select, that.eventFn);
   });
     // .on('change', , this.eventFn)
     // .on('focus', this.selectors.select, this._setMaskFocusState);
