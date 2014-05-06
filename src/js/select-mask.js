@@ -120,11 +120,10 @@ SelectMask.prototype._setMaskText = function(elem, text) {
  * @return {Object} this
  */
 SelectMask.prototype._processSelects = function() {
-  var that = this,
-    i = this.elemSelects.length;
-    console.log(this.elemSelects);
+  var i = this.elemSelects.length;
+
   while(i--) {
-    that._createMask(this.elemSelects[i]);
+    this._createMask(this.elemSelects[i]);
   }
 
   return this;
