@@ -102,8 +102,6 @@
    * @return {Object} this
    */
   SelectMask.prototype._unbindEvents = function() {
-    // $(document).off('change', this.selectors.select, this.eventFn);
-
     return this;
   };
 
@@ -134,7 +132,6 @@
 
     this._addClass(elemMask, this._stripSelectorPrefixes(this.selectors.mask));
     this._addClass(elemContainer, this._stripSelectorPrefixes(this.selectors.container));
-
     elemSelect.parentNode.insertBefore(elemContainer, elemSelect);
     elemContainer.appendChild(elemMask);
     elemContainer.appendChild(elemSelect);
@@ -180,7 +177,7 @@
   };
 
   /**
-   * Loops over the selects nodelist and calls the _createMask method on each
+   * Loops over a nodelist calling the handler and passing the element as a paramater
    * @method _processElems
    * @private
    * @return {Object} this
