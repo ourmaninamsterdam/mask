@@ -46,17 +46,41 @@
   SelectMask.prototype._bindEvents = function() {
     var that = this;
 
-    document.addEventListener('change', function(e){
+    this.addListener(document, 'change', function(e){
       that._delegateEvent(e, that.selectors.select, that._update.bind(that));
     });
 
-    document.querySelector('.select').addEventListener('focus', function(e){
+    this.addListener(document, 'change', function(e){
       that._delegateEvent(e, that.selectors.select, that._setMaskFocusState.bind(that));
     });
 
-    document.querySelector('.select').addEventListener('blur', function(e){
-      that._delegateEvent(e, that.selectors.select, that._unsetMaskFocusState.bind(that));
-    });
+
+    // document.addEventListener('change', function(e){
+    //   that._delegateEvent(e, that.selectors.select, that._update.bind(that));
+    // });
+
+    // document.querySelector('.select').addEventListener('focus', function(e){
+    //   that._delegateEvent(e, that.selectors.select, that._setMaskFocusState.bind(that));
+    // });
+
+    // document.querySelector('.select').addEventListener('blur', function(e){
+    //   that._delegateEvent(e, that.selectors.select, that._unsetMaskFocusState.bind(that));
+    // });
+
+    return this;
+  };
+
+  SelectMask.prototype.addListener = function(elem, events, handler) {
+    var i;
+
+    if(typeof handler !== 'function') return;
+
+    events = events.split(' ');
+    i = events.length;
+
+    while(i--) {
+      elem.addEventListener(events[i], handler);
+    }
 
     return this;
   };
