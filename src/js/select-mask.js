@@ -20,7 +20,6 @@
     };
     this.elementType = options.elementType || 'span';
     this.elemSelects = null;
-    this.eventFn = this._update.bind(this);
 
     this._init();
   }
