@@ -323,12 +323,13 @@
   //   };
   // }
 
-  root.SelectMask = SelectMask;
-
   if (typeof define === 'function' && define.amd) {
     define('select-mask', [], function() {
       return SelectMask;
     });
+  }
+  else {
+    root.SelectMask = SelectMask;  
   }
 
 })(window);
