@@ -6,21 +6,26 @@
   <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-  <form action="">
-    <label>Name</label>
-    <select class="js-select-mask select">
+  <form action="" class="form">
+    
+    <label for="items1">Items</label>
+    <select class="js-select-mask select visually-hidden" id="items1">
       <option value="0">Select</option>
       <option value="1">Item 1</option>
       <option value="2">Item 2</option>
       <option value="3">Item 3</option>
     </select>
-    <label>Age</label>
-    <select class="js-select-mask select">
-      <option value="0">Select</option>
-      <option value="1">New Item 1</option>
-      <option value="2" selected="selected">New Item 2</option>
-      <option value="3">New Item 3</option>
+
+    <label for="items2">More items</label>
+    <select class="js-select-mask select visually-hidden" id="items2">
+      <option value="0">Select items</option>
+      <option value="1">Item 1</option>
+      <option value="2" selected="selected">Item 2</option>
+      <option value="3">Item 3</option>
+      <option value="4">Item 4</option>
+      <option value="5">Item 5</option>
     </select>
+
   </form>
   <script src="../bower_components/jquery/dist/jquery.js"></script>
   <script src="js/select-mask.js"></script>
