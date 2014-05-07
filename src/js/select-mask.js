@@ -57,8 +57,6 @@
     document.querySelector('.select').addEventListener('blur', function(e){
       that._delegateEvent(e, that.selectors.select, that._unsetMaskFocusState.bind(that));
     });
-      // .on('change', , this.eventFn)
-      // .on('focus', this.selectors.select, this._setMaskFocusState);
 
     return this;
   };
