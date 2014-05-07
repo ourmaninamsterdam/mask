@@ -47,7 +47,7 @@
     var that = this;
 
     document.addEventListener('change', function(e){
-      that._delegateEvent(e, that.selectors.select, that.eventFn);
+      that._delegateEvent(e, that.selectors.select, that._update.bind(that));
     });
 
     document.querySelector('.select').addEventListener('focus', function(e){
@@ -94,7 +94,7 @@
    * @return {Object} this
    */
   SelectMask.prototype._update = function(elem) {
-    this._setMaskText(elem.previousSibling, this._getSelectedIndex(elem).innerText);
+    this._setMaskText(elem.previousSibling, this._getSelectedIndex(elem).innerHTML);
 
     return this;
   };
@@ -110,7 +110,7 @@
     var elemMask = document.createElement(this.elementType),
         elemContainer = document.createElement(this.elementType);
 
-    this._setMaskText(elemMask, this._getSelectedIndex(elemSelect).innerText);
+    this._setMaskText(elemMask, this._getSelectedIndex(elemSelect).innerHTML);
 
     this._addClass(elemMask, this._stripSelectorPrefixes(this.selectors.mask));
     this._addClass(elemContainer, this._stripSelectorPrefixes(this.selectors.container));
@@ -154,7 +154,7 @@
    * @return {Object} this
    */
   SelectMask.prototype._setMaskText = function(elem, text) {
-    elem.innerText = text;
+    elem.innerHTML = text;
 
     return this;
   };
