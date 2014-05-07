@@ -61,12 +61,11 @@
     return this;
   };
 
-  SelectMask.prototype._delegateEvent = function(e, selector, callback) {
+  SelectMask.prototype._delegateEvent = function(e, selector, handler) {
     var elem = e.target;
-
     if(new RegExp(this._stripSelectorPrefixes(selector),'gi').test(elem.className)){
-      if(typeof callback === 'function'){
-        callback(elem);
+      if(typeof handler === 'function'){
+        handler(elem);
       }
     }
 
@@ -163,11 +162,11 @@
    * @private
    * @return {Object} this
    */
-  SelectMask.prototype._processElems = function(elems, callback) {
+  SelectMask.prototype._processElems = function(elems, handler) {
     var i = elems.length;
 
     while(i--) {
-      callback(elems[i]);
+      handler(elems[i]);
     }
 
     return this;
