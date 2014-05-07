@@ -17,7 +17,7 @@ requirejs.config({
   baseUrl: '/base',
   deps: tests,
   paths: {
-    'jquery' : bowerPath + 'jquery/dist/jquery'
+    'select-mask' : 'src/js/select-mask'
   },
   callback: window.__karma__.start
 });
