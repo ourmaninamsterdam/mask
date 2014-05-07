@@ -72,7 +72,7 @@
   SelectMask.prototype.addListener = function(elem, events, handler) {
     var i;
 
-    if(typeof handler !== 'function') return;
+    if(elem === '' || events === '' || typeof handler !== 'function') return;
 
     events = events.split(' ');
     i = events.length;
