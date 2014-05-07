@@ -301,6 +301,10 @@
 
   root.SelectMask = SelectMask;
 
-  return SelectMask;
+  if (typeof define === 'function' && define.amd) {
+    define('select-mask', [], function() {
+      return SelectMask;
+    });
+  }
 
 })(window);
