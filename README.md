@@ -1,6 +1,6 @@
 #mask
 
-Mask is a lightweight JavaScript library for masking `<select>` boxes with a fully customisable layer which sit on top of the `<select>`. The `<select>` element is only hidden, but is still focusable, thus allowing full functionality and accessibility.
+Mask is a lightweight JavaScript library for masking `<select>` boxes with a fully customisable layer. The mask element sits on top of the `<select>` while the `<select>` element remains hidden and still focusable, thus allowing full functionality and accessibility.
 
 Inspired by the custom select boxes used on [Transport for London's Journey Planner](http://www.tfl.gov.uk/plan-a-journey/).
 
@@ -37,7 +37,7 @@ var selectMask = new SelectMask({
 selectMask.start();
 ```
 
-By default `SelectMask` class is available on the `Window` object. It will default to AMD mode if an AMD loader, such as `RequireJS`, is detected.
+By default `SelectMask` class is available on the `Window` object. It will default to AMD mode if an AMD loader, such as [RequireJS](http://requirejs.org/), is detected.
 
 ### Via AMD
 
@@ -59,7 +59,7 @@ require('select-mask');
 ##Testing
 Karma, Mocha, Chai and Sinon
 
-###Run
+###Run tests
 ```
 karma start
 ```
