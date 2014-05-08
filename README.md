@@ -5,7 +5,7 @@ Mask is a lightweight JavaScript library for masking `<select>` boxes with a ful
 Inspired by the custom select boxes used on [Transport for London's Journey Planner](http://www.tfl.gov.uk/plan-a-journey/).
 
 ##Demo
-[Demo](http://github.com)
+[Demo](http://ourmaninamsterdam.github.io/mask/src/index.html)
 
 ##Install
 
