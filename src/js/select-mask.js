@@ -144,10 +144,10 @@
     var elemMask = document.createElement(this.elementType),
         elemContainer = document.createElement(this.elementType);
 
-    this._setMaskText(elemMask, this._getSelectedIndex(elemSelect).innerHTML);
-
-    this._addClass(elemMask, this._stripSelectorPrefixes(this.selectors.mask));
-    this._addClass(elemContainer, this._stripSelectorPrefixes(this.selectors.container));
+    this
+      ._setMaskText(elemMask, this._getSelectedIndex(elemSelect).innerHTML)
+      ._addClass(elemMask, this._stripSelectorPrefixes(this.selectors.mask))
+      ._addClass(elemContainer, this._stripSelectorPrefixes(this.selectors.container));
 
     elemSelect.parentNode.insertBefore(elemContainer, elemSelect);
     elemContainer.appendChild(elemMask);
