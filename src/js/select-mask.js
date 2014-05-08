@@ -46,39 +46,44 @@
     var that = this;
 
     this.addListener(document, 'change', function(e){
-      that._delegateEvent(e, that.selectors.select, that._update.bind(that));
+      that._delegateEvent(e, that.selectors.select, that._update);
     });
 
-    this.addListener(document, 'change', function(e){
-      that._delegateEvent(e, that.selectors.select, that._setMaskFocusState.bind(that));
+    this.addListener(document.querySelectorAll(this.selectors.select), 'focus', function(e){
+      that._delegateEvent(e, that.selectors.select, that._setMaskFocusState);
     });
 
-
-    // document.addEventListener('change', function(e){
-    //   that._delegateEvent(e, that.selectors.select, that._update.bind(that));
-    // });
-
-    // document.querySelector('.select').addEventListener('focus', function(e){
-    //   that._delegateEvent(e, that.selectors.select, that._setMaskFocusState.bind(that));
-    // });
-
-    // document.querySelector('.select').addEventListener('blur', function(e){
-    //   that._delegateEvent(e, that.selectors.select, that._unsetMaskFocusState.bind(that));
-    // });
+    this.addListener(document.querySelectorAll(this.selectors.select), 'blur', function(e){
+      that._delegateEvent(e, that.selectors.select, that._unsetMaskFocusState);
+    });
 
     return this;
   };
 
-  SelectMask.prototype.addListener = function(elem, events, handler) {
-    var i;
+  SelectMask.prototype.addListener = function(elems, events, handler) {
+    var i = 0,
+        j = 0,
+        elem,
+        elemBuffer = [],
+        eventsLen;
 
-    if(elem === '' || events === '' || typeof handler !== 'function') return;
+    if(!elems || !events || typeof handler !== 'function') return;
+
+    if(elems.nodeType && !elems.length) {
+      elemBuffer.push(elems);
+    }
+    else {
+      elemBuffer = Array.prototype.slice.call(elems);
+    }
 
     events = events.split(' ');
-    i = events.length;
 
-    while(i--) {
-      elem.addEventListener(events[i], handler);
+    for (; i < elemBuffer.length; i++) {
+      j = 0;
+      elem = elemBuffer[i];
+      for(; j < events.length; j++) {
+        elem.addEventListener(events[j], handler);
+      }
     }
 
     return this;
@@ -88,7 +93,7 @@
     var elem = e.target;
     if(new RegExp(this._stripSelectorPrefixes(selector),'gi').test(elem.className)){
       if(typeof handler === 'function'){
-        handler(elem);
+        handler.call(this, e, elem);
       }
     }
 
@@ -111,7 +116,7 @@
    * @private
    * @return {Object} this
    */
-  SelectMask.prototype._update = function(elem) {
+  SelectMask.prototype._update = function(e, elem) {
     this._setMaskText(elem.previousSibling, this._getSelectedIndex(elem).innerHTML);
 
     return this;
@@ -184,9 +189,8 @@
    */
   SelectMask.prototype._processElems = function(elems, handler) {
     var i = elems.length;
-
     while(i--) {
-      handler(elems[i]);
+      handler.call(this, elems[i]);
     }
 
     return this;
@@ -212,8 +216,8 @@
    * @private
    * @return {Object} this
    */
-  SelectMask.prototype._setMaskFocusState = function(elem) {
-    this._addClass(elem, this._stripSelectorPrefixes(this.selectors.maskActive));
+  SelectMask.prototype._setMaskFocusState = function(e, elem) {
+    this._addClass(elem.previousSibling, this._stripSelectorPrefixes(this.selectors.maskActive));
 
     return this;
   };
@@ -225,8 +229,8 @@
    * @private
    * @return {Object} this
    */
-  SelectMask.prototype._unsetMaskFocusState = function(elem) {
-    this._removeClass(elem, this._stripSelectorPrefixes(this.selectors.maskActive));
+  SelectMask.prototype._unsetMaskFocusState = function(e, elem) {
+    this._removeClass(elem.previousSibling, this._stripSelectorPrefixes(this.selectors.maskActive));
 
     return this;
   };
@@ -268,7 +272,7 @@
    */
   SelectMask.prototype.start = function() {
     this._bindEvents();
-    this._processElems(this.elemSelects, this._createMask.bind(this));
+    this._processElems(this.elemSelects, this._createMask);
 
     return this;
   };
@@ -325,7 +329,7 @@
     });
   }
   else {
-    root.SelectMask = SelectMask;  
+    root.SelectMask = SelectMask;
   }
 
 })(window);
