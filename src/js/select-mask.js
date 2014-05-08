@@ -204,7 +204,9 @@
   SelectMask.prototype._processElems = function(elems, handler) {
     var i = elems.length;
     while(i--) {
-      handler.call(this, elems[i]);
+      if(typeof handler === 'function') {
+        handler.call(this, elems[i]);
+      }
     }
 
     return this;
