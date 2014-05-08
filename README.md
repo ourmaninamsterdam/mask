@@ -1,14 +1,13 @@
 #mask
 
-Mask is a simple JavaScript library for creating styleable *custom* select elements which sit on top of a normal `<select>` element. The `<select>` element is only hidden but still focusable, so the user is able to interact with it as normal ensuring full functionality and accessibility are maintained.
+Mask is a lightweight JavaScript library for masking `<select>` boxes with a fully customisable layer which sit on top of the `<select>`. The `<select>` element is only hidden, but is still focusable, thus allowing full functionality and accessibility.
 
 Inspired by the custom select boxes used on [Transport for London's Journey Planner](http://www.tfl.gov.uk/plan-a-journey/).
 
-## Libraries
-None
-
-
 ##Install
+
+###Prerequisites
+NodeJS and karma-cli
 
 ```
 npm install;
@@ -20,19 +19,48 @@ bower install
 karma start
 ```
 
-##Generate docs
-Run `yuidoc .` from project root folder.
+## Usage
 
-##Prerequisites
-NodeJS and karma-cli
+```html
+<select class="select">
+  <option value="">Option 1</option>
+  <option value="">Option 2</option>
+  <option value="">Option 3</option>
+  <option value="">Option 4</option>
+</select>
+```
+
+```javascript
+var selectMask = new SelectMask({
+  selectors : {
+    select : '.select'
+  }
+});
+```
+
+By default `SelectMask` class is available on the `Window` object but if an AMD loader, such as `RequireJS` is detected, then it will default to AMD mode.
+
+### Via AMD
+
+```javascript
+require('select-mask');
+```
 
 ## Browser support
 
-* Chrome 
+* Chrome
+* Chrome Android
 * Firefox (Partial, as Firefox requires the `keyup` event. Full support coming soon)
 * Opera
-* IE9+
+* Safari
+* Mobile Safari
+* IE9/10/11
 * *IE7+8 coming soon. Or just use ES5 shim*.
 
-##Tests
+##Testing
 Karma, Mocha, Chai and Sinon
+
+##Generate documentation
+Full library documentation is generated using *YUIDoc*
+
+Run `yuidoc .` from project root folder to generate the docs.
