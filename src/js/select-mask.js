@@ -12,6 +12,7 @@
    * @return {Object} this
    */
   function SelectMask(options) {
+    // @todo Add validation for options.selector object
     this.selectors = {
       select: options.selectors.select || '.js-select-mask',
       container: options.selectors.container || '.mask-container',
@@ -63,7 +64,7 @@
   /**
    * Setups event listeners for an element
    * @method addListener
-   * @param {Object} elems   Either a single DOM element of a NodeList
+   * @param {Object} elems   Either a single DOM element or a NodeList
    * @param {String} events  Space-delimited list of events
    * @param {Function} handler Handler function to cal when event is triggered
    * @private
@@ -195,6 +196,8 @@
   /**
    * Loops over a nodelist calling the handler and passing the element as a paramater
    * @method _processElems
+   * @param {Object} elems NodeList
+   * @param {Function} handler Handler function
    * @private
    * @return {Object} this
    */
@@ -306,27 +309,6 @@
 
     return this;
   };
-
-  /**
-   * ES5 Shims
-   */
-  // /**
-  //  * Events
-  //  */
-  // if( window.addEventListener ){
-  //   var eventHelper = {
-  //     addEventMethodName : 'addEventListener',
-  //     removeEventMethodName : 'removeEventListener',
-  //     prefix : ''
-  //   };
-  // }
-  // else{
-  //   var eventHelper = {
-  //     addEventMethodName : 'attachEvent',
-  //     removeEventMethodName : 'detachEvent',
-  //     prefix : 'on'
-  //   };
-  // }
 
   if (typeof define === 'function' && define.amd) {
     define('select-mask', [], function() {
