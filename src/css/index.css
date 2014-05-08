@@ -10,11 +10,12 @@ body {
 }
 
 .mask {
-  border: 1px solid #bbb;
+  border: 1px solid #555;
   display: block;
   padding: 7px 5px;
 }
 .is-active {
+  border-style: dashed;
   border-color: blue;
 }
 .mask, .select {
