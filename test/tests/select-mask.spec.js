@@ -34,7 +34,7 @@ describe('Select Mask', function() {
       selectedOptionText = selectOptions[selectOptions.selectedIndex].innerText;
 
       // Get mask text
-      maskText = document.querySelector(selectMask.selectors.mask);
+      maskText = document.querySelector(selectMask.selectors.mask).innerText;
 
       expect(maskText).to.equal(selectedOptionText);
     });
