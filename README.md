@@ -4,6 +4,9 @@ Mask is a lightweight JavaScript library for masking `<select>` boxes with a ful
 
 Inspired by the custom select boxes used on [Transport for London's Journey Planner](http://www.tfl.gov.uk/plan-a-journey/).
 
+##Demo
+[Demo](http://github.com)
+
 ##Install
 
 ###Prerequisites
@@ -12,11 +15,6 @@ NodeJS and karma-cli
 ```
 npm install;
 bower install
-```
-
-##Run
-```
-karma start
 ```
 
 ## Usage
@@ -36,9 +34,10 @@ var selectMask = new SelectMask({
     select : '.select'
   }
 });
+selectMask.start();
 ```
 
-By default `SelectMask` class is available on the `Window` object but if an AMD loader, such as `RequireJS` is detected, then it will default to AMD mode.
+By default `SelectMask` class is available on the `Window` object. It will default to AMD mode if an AMD loader, such as `RequireJS`, is detected.
 
 ### Via AMD
 
@@ -59,6 +58,11 @@ require('select-mask');
 
 ##Testing
 Karma, Mocha, Chai and Sinon
+
+###Run
+```
+karma start
+```
 
 ##Generate documentation
 Full library documentation is generated using *YUIDoc*
