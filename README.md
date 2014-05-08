@@ -1,6 +1,8 @@
 #mask
 
-Mask is a lightweight JavaScript library for masking `<select>` boxes with a fully customisable layer. The mask element sits on top of the `<select>` while the `<select>` element remains hidden and still focusable, thus allowing full functionality and accessibility.
+Mask is a lightweight JavaScript library for allowing customisable `<select>` boxes by masking it with a customisable element.
+
+The mask element sits on top of the `<select>` and updates its text content when there's a change to the select box below. The `<select>` element is merely hidden so continues to be focusable, thus allowing full functionality and accessibility.
 
 Inspired by the custom select boxes used on [Transport for London's Journey Planner](http://www.tfl.gov.uk/plan-a-journey/).
 
