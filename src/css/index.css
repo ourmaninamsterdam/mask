@@ -5,6 +5,7 @@
 }
 
 body {
+  background: #eee;
   font: 16px/200% Helvetica;
   margin: 20px;
   padding: 0;
@@ -26,6 +27,7 @@ label, select {
 
 
 .mask {
+  background: #fff;
   border: 1px solid #bbb;
   border-radius: 5px;
   color: #777;
@@ -52,12 +54,12 @@ label, select {
 }
 .mask.is-active,
 .mask-container:hover .mask {
-  border-color: #000;
+  border-color: #69c333;
   color: #000;
 }
 .mask.is-active:after,
 .mask-container:hover .mask:after {
-  border-color: #000 transparent transparent transparent;
+  border-color: #69c333 transparent transparent transparent;
 }
 .mask, .select {
   font-weight: bold;
