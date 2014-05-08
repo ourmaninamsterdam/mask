@@ -60,9 +60,18 @@
     return this;
   };
 
+  /**
+   * Setups event listeners for an element
+   * @method addListener
+   * @param {Object} elems   Either a single DOM element of a NodeList
+   * @param {String} events  Space-delimited list of events
+   * @param {Function} handler Handler function to cal when event is triggered
+   * @private
+   * @return {Object} this
+   */
   SelectMask.prototype.addListener = function(elems, events, handler) {
-    var i = 0,
-        j = 0,
+    var i,
+        j,
         elem,
         elemBuffer = [],
         eventsLen;
@@ -78,10 +87,9 @@
 
     events = events.split(' ');
 
-    for (; i < elemBuffer.length; i++) {
-      j = 0;
+    for (i = 0; i < elemBuffer.length; i++) {
       elem = elemBuffer[i];
-      for(; j < events.length; j++) {
+      for(j = 0; j < events.length; j++) {
         elem.addEventListener(events[j], handler);
       }
     }
@@ -113,6 +121,8 @@
   /**
    * Updates the mask
    * @method _update
+   * @param {Object} e DOM event object
+   * @param {Object} elem DOM element
    * @private
    * @return {Object} this
    */
@@ -137,6 +147,7 @@
 
     this._addClass(elemMask, this._stripSelectorPrefixes(this.selectors.mask));
     this._addClass(elemContainer, this._stripSelectorPrefixes(this.selectors.container));
+
     elemSelect.parentNode.insertBefore(elemContainer, elemSelect);
     elemContainer.appendChild(elemMask);
     elemContainer.appendChild(elemSelect);
@@ -299,12 +310,6 @@
   /**
    * ES5 Shims
    */
-  // if(typeof Function.prototype.bind === 'undefined') {
-  //   return function(event){
-  //     return fn.call(context, (event || window.event));
-  //   };
-  // }
-
   // /**
   //  * Events
   //  */
