@@ -1,5 +1,5 @@
 describe('Select Mask', function() {
-  var selectMask, 
+  var selectMask,
       elSelect;
 
   before(function(done) {
@@ -19,7 +19,6 @@ describe('Select Mask', function() {
       });
       selectMask.start();
       done();
-      // console.log(document.body);
     });
   });
 
@@ -36,7 +35,7 @@ describe('Select Mask', function() {
 
       // Get mask text
       maskText = document.querySelector(selectMask.selectors.mask);
-      
+
       expect(maskText).to.equal(selectedOptionText);
     });
   });
