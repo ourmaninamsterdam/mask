@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Select Mask</title>
+  <link rel="stylesheet" href="css/index.css">
+  <meta name="viewport" content="width=device-width">
+</head>
+<body>
+  <form action="" class="form">
+
+    <h1>Select Mask</h1>
+
+    <label for="items1">Items</label>
+    <select class="js-select-mask select visually-hidden" id="items1">
+      <option value="0">Select</option>
+      <option value="1">Item 1</option>
+      <option value="2">Item 2</option>
+      <option value="3">Item 3</option>
+    </select>
+
+    <label for="items2">More items</label>
+    <select class="js-select-mask select visually-hidden" id="items2">
+      <option value="0">Select items</option>
+      <option value="1">Item 1</option>
+      <option value="2" selected="selected">Item 2</option>
+      <option value="3">Item 3</option>
+      <option value="4">Item 4</option>
+      <option value="5">Item 5</option>
+    </select>
+
+  </form>
+  <script src="../bower_components/jquery/dist/jquery.js"></script>
+  <script src="js/select-mask.js"></script>
+  <script src="js/index.js"></script>
+</body>
+</html>
