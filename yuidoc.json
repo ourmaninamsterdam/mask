@@ -1,0 +1,9 @@
+{
+  "name": "Select Mask",
+  "description": "Select Mask: a library for creating custom selects",
+  "version": "0.1",
+  "url": "http://github.com/ourmaninamsterdam/select-mask",
+  "options": {
+    "outdir": "docs"
+  }
+}
