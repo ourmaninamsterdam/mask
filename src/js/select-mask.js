@@ -198,14 +198,15 @@
    * @method _processElems
    * @param {Object} elems NodeList
    * @param {Function} handler Handler function
+   * @param {Object} context Calling context
    * @private
    * @return {Object} this
    */
-  SelectMask.prototype._processElems = function(elems, handler) {
+  SelectMask.prototype._processElems = function(elems, handler, context) {
     var i = elems.length;
     while(i--) {
       if(typeof handler === 'function') {
-        handler.call(this, elems[i]);
+        handler.call((context = context || this), elems[i]);
       }
     }
 
