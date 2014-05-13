@@ -34,6 +34,17 @@
   SelectMask.prototype._init = function() {
     this.elemSelects = document.querySelectorAll(this.selectors.select);
 
+    if(window.addEventListener) {
+      this.addEventMethod = 'addEventListener';
+      this.removeEventMethod = 'removeEventListener';
+      this.eventMethodPrefix = '';
+    }
+    else if(window.attachEvent) {
+      this.addEventMethod = 'attachEvent';
+      this.removeEventMethod = 'detachEvent';
+      this.eventMethodPrefix = 'on';
+    }
+
     return this;
   };
 
@@ -44,78 +55,43 @@
    * @return {Object} this
    */
   SelectMask.prototype._bindEvents = function() {
-    var that = this;
+    var that = this,
+        selects,
+        selectsIdx;
 
-    this.addListener(document, 'change', function(e){
-      that._delegateEvent(e, that.selectors.select, that._update);
-    });
-
-    this.addListener(document.querySelectorAll(this.selectors.select), 'focus', function(e){
-      that._delegateEvent(e, that.selectors.select, that._setMaskFocusState);
-    });
-
-    this.addListener(document.querySelectorAll(this.selectors.select), 'blur', function(e){
-      that._delegateEvent(e, that.selectors.select, that._unsetMaskFocusState);
-    });
-
-    return this;
-  };
-
-  /**
-   * Setups event listeners for an element
-   * @method addListener
-   * @param {Object} elems   Either a single DOM element or a NodeList
-   * @param {String} events  Space-delimited list of events
-   * @param {Function} handler Handler function to cal when event is triggered
-   * @private
-   * @return {Object} this
-   */
-  SelectMask.prototype.addListener = function(elems, events, handler) {
-    var i,
-        j,
-        elem,
-        elemBuffer = [],
-        eventsLen;
-
-    if(!elems || !events || typeof handler !== 'function') return;
-
-    if(elems.nodeType && !elems.length) {
-      elemBuffer.push(elems);
-    }
-    else {
-      elemBuffer = Array.prototype.slice.call(elems);
-    }
-
-    events = events.split(' ');
-
-    for (i = 0; i < elemBuffer.length; i++) {
-      elem = elemBuffer[i];
-      for(j = 0; j < events.length; j++) {
-        elem.addEventListener(events[j], handler);
+    var selectChangeHandler = function(e) {
+      var target = that._getTarget(e);
+      that._eventPreventDefault(e);
+      if(that._hasClass(target, that.options.selectors.select) ) {
+        that._update(e, target);
       }
-    }
+    };
 
-    return this;
-  };
-
-  SelectMask.prototype._delegateEvent = function(e, selector, handler) {
-    var elem = e.target;
-    if(new RegExp(this._stripSelectorPrefixes(selector),'gi').test(elem.className)){
-      if(typeof handler === 'function'){
-        handler.call(this, e, elem);
+    var selectFocusHandler = function(e) {
+      var target = that._getTarget(e);
+      that._eventPreventDefault(e);
+      if(that._hasClass(target, that.options.selectors.select) ) {
+        that._setMaskFocusState(e, target);
       }
+    };
+
+    var selectBlurHandler = function(e) {
+      var target = that._getTarget(e);
+      that._eventPreventDefault(e);
+      if(that._hasClass(target, that.options.selectors.select) ) {
+        that._unsetMaskFocusState(e, target);
+      }
+    };
+
+    selects = document.querySelectorAll(this.selectors.select);
+    selectsIdx = selects.length;
+
+    while(selectsIdx--) {
+      this._addEvent(selects[selectsIdx], 'change', selectChangeHandler);
+      this._addEvent(selects[selectsIdx], 'focus', selectFocusHandler);
+      this._addEvent(selects[selectsIdx], 'blur', selectBlurHandler);
     }
 
-    return this;
-  };
-
-  /**
-   * Unbinds onchange events from matching `select` elements
-   * @method _unbindEvents
-   * @private
-   * @return {Object} this
-   */
-  SelectMask.prototype._unbindEvents = function() {
     return this;
   };
 
@@ -158,29 +134,6 @@
 
   /**
    * Creates mask DOM element and prepends to `select` element
-   * @method _insertBefore
-   * @param {Object} elem The element to be inserted
-   * @param {Object} target Target element to insert elem before
-   * @private
-   * @return {Object} Inserted element
-   */
-  SelectMask.prototype._insertBefore = function(elem, target) {
-    return target.parentNode.insertBefore(elem, target);
-  };
-
-  /**
-   * Removes `.` or `#` from selector
-   * @method _stripSelectorPrefixes
-   * @param {String} selector Selector to sanitise
-   * @private
-   * @return {String} selector
-   */
-  SelectMask.prototype._stripSelectorPrefixes = function(selector) {
-    return selector.replace(/\.|\#/gi,'');
-  };
-
-  /**
-   * Creates mask DOM element and prepends to `select` element
    * @method _setMaskText
    * @param {Object} elem Mask element
    * @param {String} text Text to set on the mask
@@ -191,39 +144,6 @@
     elem.innerHTML = text;
 
     return this;
-  };
-
-  /**
-   * Loops over a nodelist calling the handler and passing the element as a paramater
-   * @method _processElems
-   * @param {Object} elems NodeList
-   * @param {Function} handler Handler function
-   * @param {Object} context Calling context
-   * @private
-   * @return {Object} this
-   */
-  SelectMask.prototype._processElems = function(elems, handler, context) {
-    var i = elems.length;
-    while(i--) {
-      if(typeof handler === 'function') {
-        handler.call((context = context || this), elems[i]);
-      }
-    }
-
-    return this;
-  };
-
-  /**
-   * Gets the currently selected index from the passed `select` element
-   * @method _getSelectedIndex
-   * @param {Object} elemSelect `select` element
-   * @private
-   * @return {Number} The selected index
-   */
-  SelectMask.prototype._getSelectedIndex = function(elemSelect) {
-    var options = elemSelect.options;
-
-    return options[options.selectedIndex];
   };
 
   /**
@@ -252,6 +172,53 @@
     return this;
   };
 
+
+
+  /**
+   * Loops over a nodelist calling the handler and passing the element as a paramater
+   * @method _eachElem
+   * @param {Object} elems NodeList
+   * @param {Function} handler Handler function
+   * @param {Object} context Calling context
+   * @private
+   * @return {Object} this
+   */
+  SelectMask.prototype._eachElem = function(elems, handler, context) {
+    var i = elems.length;
+    while(i--) {
+      if(typeof handler === 'function') {
+        handler.call((context = context || this), elems[i]);
+      }
+    }
+
+    return this;
+  };
+
+  /**
+   * Gets the currently selected index from the passed `select` element
+   * @method _getSelectedIndex
+   * @param {Object} elemSelect `select` element
+   * @private
+   * @return {Number} The selected index
+   */
+  SelectMask.prototype._getSelectedIndex = function(elemSelect) {
+    var options = elemSelect.options;
+
+    return options[options.selectedIndex];
+  };
+
+  /**
+   * Prepends element to a supplied target element
+   * @method _insertBefore
+   * @param {Object} elem The element to be inserted
+   * @param {Object} target Target element to insert elem before
+   * @private
+   * @return {Object} Inserted element
+   */
+  SelectMask.prototype._insertBefore = function(elem, target) {
+    return target.parentNode.insertBefore(elem, target);
+  };
+
   /**
    * Remove element from dom
    * @method _removeElem
@@ -265,6 +232,22 @@
     return this;
   };
 
+  /**
+   * Removes `.` or `#` from selector
+   * @method _stripSelectorPrefixes
+   * @param {String} selector Selector to sanitise
+   * @private
+   * @return {String} selector
+   */
+  SelectMask.prototype._stripSelectorPrefixes = function(selector) {
+    return selector.replace(/\.|\#/gi,'');
+  };
+
+  /**
+   * [_addClass description]
+   * @param {[type]} elem     [description]
+   * @param {[type]} newClass [description]
+   */
   SelectMask.prototype._addClass = function(elem, newClass){
     var curClass = elem.className;
     if(!new RegExp(newClass,'i').test(curClass)){
@@ -277,8 +260,86 @@
     return this;
   };
 
+  /**
+   * [_removeClass description]
+   * @param  {[type]} elem     [description]
+   * @param  {[type]} cssClass [description]
+   * @return {[type]}          [description]
+   */
   SelectMask.prototype._removeClass = function(elem, cssClass){
     elem.className = elem.className.replace(' ' + cssClass,'');
+  };
+
+
+  /**
+   * [_hasClass description]
+   * @param  {[type]}  elem     [description]
+   * @param  {[type]}  cssClass [description]
+   * @return {Boolean}          [description]
+   */
+  SelectMask.prototype._hasClass = function(elem, cssClass){
+    return new RegExp('\\b'+ cssClass +'\\b', 'gi').test( elem.className );
+  };
+
+  /**
+   * Add an event listener to an element
+   * @method _addEvent
+   * @param {Object} elem         Target element
+   * @param {String} event        Event type
+   * @param {Function} handler    Handler function to trigger on event
+   * @param {Boolean} useCapture  Register event as a capturing listener
+   * @private
+   * @return {Object} this
+   */
+  SelectMask.prototype._addEvent = function(elem, eventType, handler, useCapture) {
+    useCapture = useCapture || false;
+    this.handler = handler;
+    elem[this.addEventMethod](this.eventMethodPrefix + eventType, handler, useCapture);
+  };
+
+  /**
+   * Removes an event listener from an element
+   * @method _removeEvent
+   * @param {Object} elem         Target element
+   * @param {String} event        Event type
+   * @param {Function} handler    Handler function to remove from element
+   * @param {Boolean} useCapture  Whether the event was a capturing listener
+   * @private
+   * @return {Object} this
+   */
+  SelectMask.prototype._removeEvent = function(elem, eventType, handler, useCapture) {
+    useCapture = useCapture || false;
+    elem[this.removeEventMethod](this.eventMethodPrefix + eventType, handler, useCapture);
+  };
+
+  /**
+   * Cross-browser shim (<IE9) to return the target element from an Event object
+   * @method _getTarget
+   * @param  {Object} e Event object
+   * @return {Object} The element that received the event
+   */
+  SelectMask.prototype._getTarget = function(e) {
+    e = e || window.event;
+    return e.target || e.srcElement;
+  };
+
+  /**
+   * [_eventPreventDefault description]
+   * @param  {[type]} e [description]
+   * @return {[type]}   [description]
+   */
+  SelectMask.prototype._eventPreventDefault = function(e){
+    return e.preventDefault? e.preventDefault() : e.returnValue = false;
+  };
+
+  /**
+   * Unbinds onchange events from matching `select` elements
+   * @method _unbindEvents
+   * @private
+   * @return {Object} this
+   */
+  SelectMask.prototype._unbindEvents = function() {
+    return this;
   };
 
   /**
@@ -289,7 +350,7 @@
    */
   SelectMask.prototype.start = function() {
     this._bindEvents();
-    this._processElems(this.elemSelects, this._createMask);
+    this._eachElem(this.elemSelects, this._createMask);
 
     return this;
   };
